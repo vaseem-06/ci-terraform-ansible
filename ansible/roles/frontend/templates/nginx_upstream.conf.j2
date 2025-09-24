@@ -1,3 +1,4 @@
+#optional
 upstream backend_netdata {
 {% for host in groups['backend'] %}
   server {{ hostvars[host]['ansible_host'] }}:19999;
