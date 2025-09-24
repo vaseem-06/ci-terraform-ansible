@@ -151,6 +151,8 @@ Verified connectivity via curl and browser.
 
 <img width="1920" height="887" alt="image" src="https://github.com/user-attachments/assets/2617f13f-a1e8-49bc-bd89-b93fa4987f34" />
 
+<img width="1905" height="881" alt="image" src="https://github.com/user-attachments/assets/1c1c2bf6-5d85-4f7c-b9b7-e73a96cebb88" />
+
 
 <img width="1920" height="881" alt="image" src="https://github.com/user-attachments/assets/9a81707e-6b68-43b8-b376-be825f7fdec2" />
 
