@@ -1,12 +1,12 @@
-name: Terraform -> Ansible CI
+#name: Terraform -> Ansible CI
 
-on:
+#on:
   workflow_dispatch:
   push:
     branches:
       - main
 
-jobs:
+#jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
