@@ -1,18 +1,80 @@
 ---
-- name: Ensure nginx is installed
-  ansible.builtin.package:
+- name: Disable SELinux (Amazon Linux)
+  command: setenforce 0
+  ignore_errors: yes
+  when: ansible_os_family == "RedHat"
+
+
+- name: Permanently disable SELinux
+  replace:
+    path: /etc/selinux/config
+    regexp: '^SELINUX=.*'
+    replace: 'SELINUX=disabled'
+  when: ansible_os_family == "RedHat"
+
+
+- name: Disable and stop firewalld (Amazon Linux)
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+  become: yes
+  ignore_errors: yes
+  when: ansible_os_family == "RedHat"
+
+
+- name: Install Nginx on Debian/Ubuntu
+  apt:
     name: nginx
     state: present
+    update_cache: yes
+  become: yes
+  when: ansible_os_family == "Debian"
 
-- name: Deploy nginx upstream/conf that proxies to backend:19999
-  ansible.builtin.template:
-    src: nginx_upstream.conf.j2
-    dest: /etc/nginx/conf.d/backend_upstream.conf
-    mode: '0644'
-  notify: Reload nginx
 
-- name: Ensure nginx is enabled and started
-  ansible.builtin.service:
+- name: Install Nginx on Amazon Linux
+  yum:
+    name: nginx
+    state: present
+  become: yes
+  when: ansible_os_family == "RedHat"
+
+
+- name: Ensure Nginx is started and enabled (Amazon Linux)
+  service:
     name: nginx
     state: started
-    enabled: true
+    enabled: yes
+  become: yes
+  when: ansible_os_family == "RedHat"
+
+
+- name: Configure Nginx proxy to backend
+  copy:
+    dest: /etc/nginx/conf.d/backend_proxy.conf
+    content: |
+      server {
+          listen 80;
+          location / {
+              proxy_pass http://{{ hostvars['u21.local'].ansible_host }}:19999/;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+          }
+      }
+  become: yes
+  notify:
+    - Restart Nginx
+
+
+- name: Start and enable Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+
+# Handlers
+- name: Reload Nginx
+  service:
+    name: nginx
+    state: reloaded
