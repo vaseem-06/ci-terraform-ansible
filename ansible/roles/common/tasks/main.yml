@@ -1,0 +1,21 @@
+---
+- name: Ensure selinux package present (optional)
+  ansible.builtin.package:
+    name: libselinux-python
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
+  ignore_errors: true
+
+- name: Disable SELinux (persistent) - only on RedHat family
+  ansible.posix.selinux:
+    state: disabled
+  when: ansible_facts['os_family'] == 'RedHat'
+  ignore_errors: true
+
+- name: Stop and disable firewalld if present
+  ansible.builtin.service:
+    name: firewalld
+    state: stopped
+    enabled: false
+  when: ansible_facts['os_family'] == 'RedHat'
+  ignore_errors: true

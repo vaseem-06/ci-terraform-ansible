@@ -1,0 +1,54 @@
+---
+- name: Backend: Prepare package manager & install prerequisites (Debian)
+  ansible.builtin.apt:
+    update_cache: yes
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Add Netdata apt GPG key
+  ansible.builtin.apt_key:
+    url: https://packagecloud.io/netdata/netdata/gpgkey
+    state: present
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Add Netdata apt repository (Debian/Ubuntu)
+  ansible.builtin.apt_repository:
+    repo: "deb https://packagecloud.io/netdata/netdata/ubuntu/ {{ ansible_lsb.codename }} main"
+    state: present
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Install Netdata (Debian)
+  ansible.builtin.apt:
+    name: netdata
+    state: latest
+    update_cache: yes
+  when: ansible_facts['os_family'] == 'Debian'
+
+# For RedHat family (Amazon Linux 2 is often compatible)
+- name: Create Netdata yum repo (RedHat)
+  ansible.builtin.yum_repository:
+    name: netdata
+    description: "netdata packagecloud repo"
+    baseurl: "https://packagecloud.io/netdata/netdata/el/{{ ansible_facts['distribution_major_version'] }}/$basearch"
+    gpgkey: https://packagecloud.io/netdata/netdata/gpgkey
+    gpgcheck: yes
+    enabled: yes
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Install Netdata (RedHat)
+  ansible.builtin.package:
+    name: netdata
+    state: latest
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Ensure netdata is enabled & running
+  ansible.builtin.service:
+    name: netdata
+    state: started
+    enabled: true
+
+- name: Wait for netdata to be listening on 19999
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: 19999
+    timeout: 30
+  delegate_to: "{{ inventory_hostname }}"

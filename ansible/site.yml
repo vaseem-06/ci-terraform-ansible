@@ -1,0 +1,17 @@
+- name: Apply common OS-level changes
+  hosts: all
+  become: true
+  roles:
+    - common
+
+- name: Configure frontend (nginx)
+  hosts: frontend
+  become: true
+  roles:
+    - frontend
+
+- name: Configure backend (netdata)
+  hosts: backend
+  become: true
+  roles:
+    - backend
