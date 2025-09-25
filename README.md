@@ -140,7 +140,6 @@ If multiple backends are added, Nginx load balances across them.
 📸 Screenshots
 
 Netdata Dashboard
-<img width="1106" height="758" alt="image" src="https://github.com/user-attachments/assets/0121222b-4add-4f32-a895-0839d5de3d51" />
 
 <img width="1920" height="873" alt="image" src="https://github.com/user-attachments/assets/ff65c9e2-cd76-475b-acdc-606a4e87e4f1" />
 
