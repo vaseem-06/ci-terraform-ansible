@@ -18,10 +18,7 @@ This project demonstrates provisioning **EC2 instances** using Terraform and con
 
 ## 📂 Project Structure
 
-<img width="476" height="415" alt="image" src="https://github.com/user-attachments/assets/865ab7c8-57d8-4852-bd89-062c2d0198c1" />
-
 <img width="507" height="444" alt="image" src="https://github.com/user-attachments/assets/18d82a95-0ec2-406d-b1a2-a6dad443a5f9" />
-
 
 ├── terraform/ # Terraform code to provision EC2
 │ ├── main.tf
@@ -29,10 +26,11 @@ This project demonstrates provisioning **EC2 instances** using Terraform and con
 │ └── outputs.tf
 ├── ansible/ # Ansible automation
 │ ├── inventory.ini
+│ ├── generate_inventory.py
 │ ├── site.yml
-│ ├── roles/
-│ │ ├── frontend/ # Nginx role
-│ │ └── backend/ # Netdata role
+│ └── roles/
+│ ├── frontend/ # Nginx role
+│ └── backend/ # Netdata role
 └── README.md
 
 
