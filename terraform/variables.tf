@@ -6,7 +6,7 @@ variable "aws_region" {
 variable "key_name" {
   type        = string
   description = "Name of EC2 keypair (must already exist in the region)"
-  default     = "ansible"
+  default     = "new"
 }
 
 variable "ami_amazon_linux" {
