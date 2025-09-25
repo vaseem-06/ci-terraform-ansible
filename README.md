@@ -137,6 +137,13 @@ http://<frontend_public_ip>
 
 If multiple backends are added, Nginx load balances across them.
 
+📸 Screenshots
+
+Netdata Dashboard
+
+<img width="1920" height="873" alt="image" src="https://github.com/user-attachments/assets/ff65c9e2-cd76-475b-acdc-606a4e87e4f1" />
+
+
 🎯 Key Learnings
 
 Used Terraform for infra provisioning.
